@@ -3,7 +3,7 @@
 ###(Front-end only application)
 
 This project was generated with 
-[Angular CLI](https://github.com/angular/angular-cli) version 12.2.5.
+[Angular CLI](https://github.com/angular/angular-cli) version 12.2.5. <br/>
 Node version 14.17.3
 
 ## Development server
