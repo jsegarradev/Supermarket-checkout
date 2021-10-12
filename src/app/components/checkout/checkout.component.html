@@ -1,0 +1,89 @@
+<div class="grid | w-full | bg-purple">
+  <div class="col-6 col-offset-3">
+    <div class="card">
+      <p-table *ngIf="products"
+               [value]="products"
+               responsiveLayout="scroll"
+      >
+        <ng-template pTemplate="caption">
+          <div>Productos</div>
+        </ng-template>
+        <ng-template pTemplate="header">
+          <tr>
+            <th>Imagen</th>
+            <th>Nombre</th>
+            <th>Id</th>
+            <th>Precio</th>
+            <th>Descuento</th>
+            <th>Añadir</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-product>
+          <tr>
+            <td>
+              <img [src]="'assets/No-Image.png'"
+                   [alt]="product.name"
+                   width="100"
+                   class="p-shadow-4"/>
+            </td>
+            <td>{{product.name}}</td>
+            <td>{{product.id}}</td>
+            <td>{{product.price | number:'1.2-2'}} €</td>
+            <td>
+              <p-badge *ngIf="product.discount"
+                       [value]="product.discount.name"></p-badge>
+            </td>
+            <td>
+              <p-button label="Añadir"
+                        (onClick)="selectProduct(product)"></p-button>
+            </td>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="summary">
+          <div>Total: {{products ? products.length : 0 }} productos.</div>
+        </ng-template>
+      </p-table>
+
+    </div>
+  </div>
+  <div class="col-3">
+    <div class="card | h-full">
+      <h3> Facturar </h3>
+      <div class="bill | overflow-auto | mb-4">
+        <div *ngFor="let product of selectedProducts; let i = index">
+          <div class="flex flex-initial | justify-content-between | p-0 m-0">
+            <div>
+              <div class="dot | align-self-center"></div>
+              <div class="line"></div>
+              <div class="dot | align-self-start"></div>
+            </div>
+            <div class="align-self-center">{{product.name}}, {{product.id}}, {{product.price}} €</div>
+            <button type="button" icon="pi pi-times"
+                    class="align-self-center | p-button-rounded p-button-danger p-button-outlined p-button p-button-icon-only"
+                    style="height: 2rem; width: 2rem"
+                    (click)="unSelectProduct(i)"
+            >
+              <span class="p-button-icon | pi pi-times" aria-hidden="true"></span>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="bill | overflow-auto | mb-8">
+        <div *ngFor="let discount of appliedDiscounts; let i = index">
+          <div *ngIf="discount" class="flex flex-initial | justify-content-between | p-0 m-0">
+            <div>
+              <div class="dot | align-self-center | bg-green-500"></div>
+              <div class="line | bg-green-500"></div>
+              <div class="dot | align-self-start | bg-green-500"></div>
+            </div>
+            <div class="align-self-center">Aplicado descuento de {{discount.discount.name}} €</div>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="amountToPay != 0" class="flex flex-initial | justify-content-between | p-3  ">
+        <div class="dot | align-self-center | bg-gray-700"></div>
+        <div class="align-self-center">Total {{amountToPay | number:'1.2-2'}} €</div>
+      </div>
+    </div>
+  </div>
+</div>
